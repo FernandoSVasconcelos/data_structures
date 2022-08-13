@@ -64,6 +64,19 @@ person *hash_table_lookup(char *name){
     }
 }
 
+person *hash_table_delete(char *name){
+    int index = hash(name);
+    if((hash_table[index] != NULL) && (strncmp(hash_table[index]->name, name, TABLE_SIZE)) == 0){
+        person *tmp = hash_table[index];
+        hash_table[index] = NULL;
+        printf("Removendo %s da tabela.\n", name);
+        return tmp;
+    }
+    else{
+        return NULL;
+    }
+}
+
 int main(){
     init_hash_table();
 
@@ -91,6 +104,9 @@ int main(){
     else{
         printf("Found %s.\n", tmp->name);
     }
+
+    hash_table_delete("Fernando");
+    print_table();
 
     return 0;
 }
