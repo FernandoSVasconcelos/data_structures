@@ -14,13 +14,12 @@ void insert_queue(int *queue, int value){
 }
 
 void pop_queue(int *queue){
-    for(int i=0; i < QUEUE_SIZE; i++){
-        if(queue[i] != NULL){
-            printf("Poping {%d] from {%d} slot\n", queue[i], i);
-            queue[i] = NULL;
-            break;
-        }
+    printf("Poping {%d] from {%d} slot\n", queue[0], 0);
+    queue[0] = NULL;
+    for(int i=0; i < QUEUE_SIZE-1; i++){
+        queue[i] = queue[i+1];
     }
+    queue[QUEUE_SIZE-1] = NULL;
 
 }
 
@@ -45,6 +44,13 @@ int main(){
     insert_queue(&queue, 7);
     insert_queue(&queue, 8);
     insert_queue(&queue, 2);
+    insert_queue(&queue, 1);
+    insert_queue(&queue, 3);
+    insert_queue(&queue, 14);
+    insert_queue(&queue, 5);
+    insert_queue(&queue, 22);
+    insert_queue(&queue, 12);
+    print_queue(&queue);
     pop_queue(&queue);
     print_queue(&queue);
     pop_queue(&queue);
