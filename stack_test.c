@@ -42,11 +42,18 @@ int main(){
     insert_stack(&stack, 33);
     insert_stack(&stack, 1);
     insert_stack(&stack, 2);
+    insert_stack(&stack, 4);
+    insert_stack(&stack, 5);
+    insert_stack(&stack, 7);
+    insert_stack(&stack, 83);
+    insert_stack(&stack, 6);
+    insert_stack(&stack, 21);
     print_stack(&stack);
     pop_stack(&stack);
     print_stack(&stack);
     pop_stack(&stack);
     print_stack(&stack);
+    
 
 
 
