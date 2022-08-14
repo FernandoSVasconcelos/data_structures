@@ -6,6 +6,7 @@
 
 #define MAX_NAME 256
 #define TABLE_SIZE 10
+#define DELETED_NODE (person*)(0xFFFFFFFFFFFFFFFFUL)
 
 typedef struct{
     char name[MAX_NAME];
@@ -37,6 +38,9 @@ void print_table(){
         if(hash_table[i] == NULL){
             printf("\t%i\t-----\n", i);
         }
+        else if(hash_table[i] == DELETED_NODE){
+            printf("\t%i\t-----<deleted>\n", i);
+        }
         else{
             printf("\t%i\t%s\n", i, hash_table[i]->name);
         }
@@ -47,34 +51,45 @@ void print_table(){
 bool hash_table_insert(person *p){
     if(p == NULL) return false;
     int index = hash(p->name);
-    if(hash_table[index] != NULL){
-        return false;
+    for(int i=0; i < TABLE_SIZE; i++){
+        int try = (i + index) % TABLE_SIZE;
+        if(hash_table[try] == NULL || hash_table[try] == DELETED_NODE){
+            hash_table[try] = p;
+            return true;
+        }
     }
-    hash_table[index] = p;
-    return true;
+    return false;
 }
 
 person *hash_table_lookup(char *name){
     int index = hash(name);
-    if((hash_table[index] != NULL) && (strncmp(hash_table[index]->name, name, TABLE_SIZE)) == 0){
-        return hash_table[index];
+    for(int i=0; i < TABLE_SIZE; i++){
+        int try = (index + i) % TABLE_SIZE;
+        if(hash_table[try] == NULL){
+            return false;
+        }
+        if(hash_table[try] == DELETED_NODE) continue;
+        if((strncmp(hash_table[try]->name, name, TABLE_SIZE)) == 0){
+            return hash_table[try];
+        }
     }
-    else{
-        return NULL;
-    }
+    return NULL;
 }
 
 person *hash_table_delete(char *name){
     int index = hash(name);
-    if((hash_table[index] != NULL) && (strncmp(hash_table[index]->name, name, TABLE_SIZE)) == 0){
-        person *tmp = hash_table[index];
-        hash_table[index] = NULL;
-        printf("Removendo %s da tabela.\n", name);
-        return tmp;
+    for(int i=0; i < TABLE_SIZE; i++){
+        int try = (index + i) % TABLE_SIZE;
+        if(hash_table[try] == NULL) return NULL;
+        if(hash_table[try] == DELETED_NODE) continue;
+        if((strncmp(hash_table[try]->name, name, TABLE_SIZE)) == 0){
+            person *tmp = hash_table[try];
+            hash_table[try] = NULL;
+            printf("Removendo %s da tabela.\n", name);
+            return tmp;
+        }
     }
-    else{
-        return NULL;
-    }
+    return DELETED_NODE;
 }
 
 int main(){
