@@ -35,9 +35,10 @@ void init_stack(int *stack){
         stack[i] = NULL;
     }
 }
+
 int main(){
     int *stack;
-    stack = malloc(sizeof(int) * STACK_SIZE);
+    stack = (int*) malloc(sizeof(int) * STACK_SIZE);
     init_stack(&stack);
     insert_stack(&stack, 33);
     insert_stack(&stack, 1);
@@ -54,8 +55,6 @@ int main(){
     pop_stack(&stack);
     print_stack(&stack);
     
-
-
-
+    free(stack); 
     return 0;
 }

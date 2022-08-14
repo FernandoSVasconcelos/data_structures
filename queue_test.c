@@ -38,7 +38,7 @@ void print_queue(int *queue){
 
 int main(){
     int *queue;
-    queue = malloc(sizeof(int) * QUEUE_SIZE);
+    queue = (int*) malloc(sizeof(int) * QUEUE_SIZE);
     init_queue(&queue);
     insert_queue(&queue, 6);
     insert_queue(&queue, 7);
@@ -56,5 +56,6 @@ int main(){
     pop_queue(&queue);
     print_queue(&queue);
 
+    free(queue);
     return 0;
 }
